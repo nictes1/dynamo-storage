@@ -1,8 +1,6 @@
 package handler
 
 import (
-	"os"
-
 	"github.com/gin-gonic/gin"
 	"github.com/nictes/dynamo-storage/internal/users"
 )
@@ -27,16 +25,6 @@ func NewUser(u users.Service) *User {
 func (c *User) GetOne() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 
-		token := ctx.Request.Header.Get("token")
-		tokenFromEnv := os.Getenv("TOKEN")
-
-		if token != tokenFromEnv {
-			ctx.JSON(401, gin.H{
-				"error": "token inválido",
-			})
-			return
-		}
-
 		p, err := c.service.GetOne(ctx.Param("id"))
 		if err != nil {
 			ctx.JSON(500, gin.H{
@@ -50,14 +38,6 @@ func (c *User) GetOne() gin.HandlerFunc {
 
 func (c *User) Store() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-
-		token := ctx.Request.Header.Get("token")
-		tokenFromEnv := os.Getenv("TOKEN")
-
-		if token != tokenFromEnv {
-			ctx.JSON(401, gin.H{"error": "token inválido"})
-			return
-		}
 
 		var req request
 		if err := ctx.ShouldBindJSON(&req); err != nil {
@@ -77,16 +57,6 @@ func (c *User) Store() gin.HandlerFunc {
 
 func (c *User) Delete() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-
-		token := ctx.Request.Header.Get("token")
-		tokenFromEnv := os.Getenv("TOKEN")
-
-		if token != tokenFromEnv {
-			ctx.JSON(401, gin.H{
-				"error": "token inválido",
-			})
-			return
-		}
 
 		err := c.service.Delete(ctx.Param("id"))
 		if err != nil {

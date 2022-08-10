@@ -7,8 +7,6 @@ import (
 	"github.com/nictes/dynamo-storage/cmd/server/handler"
 	"github.com/nictes/dynamo-storage/internal/users"
 
-	"github.com/joho/godotenv"
-
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -16,11 +14,6 @@ import (
 )
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatalf("%serror al cargar archivo .env %s\n", "\033[31m", "\033[0m")
-	}
-
 	region := "us-east-1"
 	endpoint := "http://localhost:8000"
 	cred := credentials.NewStaticCredentials("local", "local", "")
